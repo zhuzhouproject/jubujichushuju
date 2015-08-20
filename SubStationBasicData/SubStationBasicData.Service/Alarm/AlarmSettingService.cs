@@ -61,5 +61,48 @@ namespace SubStationBasicData.Service.Alarm
         //    //string[] rowsData = EasyUIJsonParser.Utility.JsonPickArray(json, "rows");
         //    return EasyUIJsonParser.TreeGridJsonParser.JsonToDataTable(json);
         //}
+        public static int SaveAlarmValues(string organizationId, DataTable saveDataTable)
+        {
+            string connectionString = ConnectionStringFactory.NXJCConnectionString;
+            ISqlServerDataFactory dataFactory = new SqlServerDataFactory(connectionString);
+            int m_UpdateRowCount = 0;
+            if (saveDataTable != null)
+            {
+                saveDataTable.Columns.Remove("id");
+                saveDataTable.Columns.Remove("OrganizationID");
+                saveDataTable.Columns.Remove("Name");
+                saveDataTable.Columns.Remove("AlarmType");
+                saveDataTable.Columns.Remove("AlarmTypeName");
+
+                m_UpdateRowCount = dataFactory.Update("formula_FormulaDetail", saveDataTable, new string[] { "KeyID", "VariableId", "LevelCode" });
+                RestartDataCollection(organizationId);   //自动重启数采软件
+            }
+            return m_UpdateRowCount;
+        }
+        private static void RestartDataCollection(string organizationId)
+        {
+
+            string connectionString = ConnectionStringFactory.NXJCConnectionString;
+            SystemParameters.UpdateNotification.UpdateParameters m_UpdateParameters = new SystemParameters.UpdateNotification.UpdateParameters(connectionString);
+            ISqlServerDataFactory dataFactory = new SqlServerDataFactory(connectionString);
+            string mySql = @"select A.Type
+                                from tz_Formula A
+                                where A.OrganizationID=@organizationId";
+            SqlParameter parameter = new SqlParameter("organizationId", organizationId);
+            DataTable alarmInfoTable = dataFactory.Query(mySql, parameter);
+            if (alarmInfoTable != null)
+            {
+                string m_OrganizationType = alarmInfoTable.Rows[0]["Type"].ToString();
+                if (m_OrganizationType == "1")   //公共公式
+                {
+                    m_UpdateParameters.Update(organizationId, SystemParameters.UpdateNotification.Name.公共公式, SystemParameters.UpdateNotification.TypeModify.立即);
+                }
+                else if (m_OrganizationType == "2")   //公式
+                {
+                    m_UpdateParameters.Update(organizationId, SystemParameters.UpdateNotification.Name.公式, SystemParameters.UpdateNotification.TypeModify.立即);
+                }
+            }
+            
+        }
     }
 }

@@ -31,6 +31,15 @@ namespace SubStationBasicData.Web.UI_SubStationBasicData.Alarm
                 //this.OrganisationTree_ProductionLine.LeveDepth = 5;
             }
         }
+        /// <summary>
+        /// 页面操作权限
+        /// </summary>
+        /// <returns></returns>
+        [WebMethod]
+        public static char[] AuthorityControl()
+        {
+            return mPageOpPermission.ToArray();
+        }
         [WebMethod]
         public static string GetData(string organizationId)
         {
@@ -42,10 +51,17 @@ namespace SubStationBasicData.Web.UI_SubStationBasicData.Alarm
         [WebMethod]
         public static int SaveAlarmValues(string organizationId, string datagridData)
         {
-            DataTable table = EasyUIJsonParser.TreeGridJsonParser.JsonToDataTable(datagridData);
-
-
-            return 1;
+            if (mPageOpPermission.ToArray()[2] == '1')
+            {
+                DataTable table = EasyUIJsonParser.TreeGridJsonParser.JsonToDataTable(datagridData);
+                int m_Result = AlarmSettingService.SaveAlarmValues(organizationId, table);
+                m_Result = m_Result > 0 ? 1 : m_Result;
+                return m_Result;
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }

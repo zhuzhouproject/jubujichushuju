@@ -44,7 +44,7 @@
                                     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">撤销</a>
                                 </td>
                                 <td>
-                                    <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="saveFun();">保存</a>
+                                    <a href="#" id="edit" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="saveFun();">保存</a>
                                 </td>
                             </tr>
                         </table>

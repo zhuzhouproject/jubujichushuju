@@ -41,6 +41,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="SystemParameters.UpdateNotification">
+      <HintPath>..\..\SystemParameters\SystemParameters.UpdateNotification\bin\Debug\SystemParameters.UpdateNotification.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Alarm\AlarmSettingService.cs" />

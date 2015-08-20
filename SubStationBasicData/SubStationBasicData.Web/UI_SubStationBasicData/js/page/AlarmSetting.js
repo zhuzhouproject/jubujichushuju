@@ -4,6 +4,32 @@ $(function () {
     myDataGridObject = $('#gridMain_ReportTemplate');
 });
 
+//初始化页面的增删改查权限
+function initPageAuthority() {
+    $.ajax({
+        type: "POST",
+        url: "AlarmSetting.aspx/AuthorityControl",
+        data: "",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        async: false,//同步执行
+        success: function (msg) {
+            var authArray = msg.d;
+            //增加
+            //if (authArray[1] == '0') {
+            //    $("#add").linkbutton('disable');
+            //}
+            //修改
+            if (authArray[2] == '0') {
+                $("#edit").linkbutton('disable');
+            }
+            //删除
+            //if (authArray[3] == '0') {
+            //    $("#delete").linkbutton('disable');
+            //}
+        }
+    });
+}
 function loadDatagrid(loadType) {
     if ("first" == loadType) {
         $('#gridMain_ReportTemplate').treegrid({
@@ -100,9 +126,13 @@ function reject() {
 function saveFun() {
     endEditing();           //关闭正在编辑
     var organizationId = $('#organizationId').val();
-    var m_DataGridData = $('#gridMain_ReportTemplate').treegrid('getData');
+    //var m_DataGridData = $('#gridMain_ReportTemplate').treegrid('getData');
+    var m_DataGridData = $('#gridMain_ReportTemplate').datagrid('getChanges', 'updated');
+    for (var i = 0; i < m_DataGridData.length; i++) {
+        m_DataGridData[i]['children'] = [];
+    }
     if (m_DataGridData.length > 0) {
-        var m_DataGridDataJson =  JSON.stringify(m_DataGridData) ;
+        var m_DataGridDataJson = JSON.stringify(m_DataGridData);
         $.ajax({
             type: "POST",
             url: "AlarmSetting.aspx/SaveAlarmValues",
@@ -118,7 +148,7 @@ function saveFun() {
                     $.messager.alert('提示', '修改失败！');
                 }
                 else if (m_Msg == '-1') {
-                    $.messager.alert('提示', '数据库错误！');
+                    $.messager.alert('提示', '用户没有保存权限！');
                 }
                 else {
                     $.messager.alert('提示', m_Msg);
