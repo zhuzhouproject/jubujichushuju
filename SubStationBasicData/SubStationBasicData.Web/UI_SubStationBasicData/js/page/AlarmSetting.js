@@ -2,6 +2,7 @@
 $(function () {
     loadDatagrid("first");
     myDataGridObject = $('#gridMain_ReportTemplate');
+    initPageAuthority();
 });
 
 //初始化页面的增删改查权限
