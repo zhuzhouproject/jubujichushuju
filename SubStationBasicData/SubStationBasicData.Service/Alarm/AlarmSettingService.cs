@@ -20,7 +20,11 @@ namespace SubStationBasicData.Service.Alarm
                                 from tz_Formula A,formula_FormulaDetail B,system_Organization C
                                 where A.KeyID=B.KeyID
                                 and A.OrganizationID=C.OrganizationID
-                                and A.OrganizationID=@organizationId";
+                                and A.OrganizationID=@organizationId
+								and B.VariableId<>(case when C.Type ='熟料'  then 'clinkerElectricityGeneration' 
+								else '' end)
+								and B.VariableId<>(case when C.Type ='熟料'  then 'electricityOwnDemand' 
+								else '' end)";
 //                                and C.LevelCode like (SELECT LevelCode FROM system_Organization where OrganizationID=@organizationId)+'%'
 //                                order by B.LevelCode";
             SqlParameter parameter = new SqlParameter("organizationId",organizationId);
