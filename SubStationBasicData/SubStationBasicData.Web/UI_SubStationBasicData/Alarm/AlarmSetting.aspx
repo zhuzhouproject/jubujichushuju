@@ -35,7 +35,7 @@
                             <tr>
                                 <td>生产线：</td>
                                 <td>
-                                    <input id="productLineName" class="easyui-textbox" style="width: 180px;" readonly="true" /><input id="organizationId" readonly="true" style="display: none;" /></td>
+                                    <input id="productLineName" class="easyui-textbox" style="width: 180px;" readonly="readonly" /><input id="organizationId" readonly="true" style="display: none;" /></td>
 
                                 <td><a href="javascript:void(0);" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true"
                                     onclick="RefreshFun();">刷新</a>
@@ -43,7 +43,7 @@
                                 <td>
                                     <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-undo',plain:true" onclick="reject()">撤销</a>
                                 </td>
-                                <td>
+                                 <td>
                                     <a href="#" id="edit" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="saveFun();">保存</a>
                                 </td>
                             </tr>

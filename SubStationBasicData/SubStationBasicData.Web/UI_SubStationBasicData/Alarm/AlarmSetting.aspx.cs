@@ -20,7 +20,7 @@ namespace SubStationBasicData.Web.UI_SubStationBasicData.Alarm
             {
 #if DEBUG
                 ////////////////////调试用,自定义的数据授权
-                List<string> m_DataValidIdItems = new List<string>() { "zc_nxjc_byc_byf" };
+                List<string> m_DataValidIdItems = new List<string>() { "zc_zcshn_zhuzhouc_zhuzhouf" };
                 AddDataValidIdGroup("ProductionOrganization", m_DataValidIdItems);
 #elif RELEASE
 #endif

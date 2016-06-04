@@ -34,8 +34,8 @@ function initPageAuthority() {
 function loadDatagrid(loadType) {
     if ("first" == loadType) {
         $('#gridMain_ReportTemplate').treegrid({
-            columns: [[
-                { field: 'Name', title: '名称', width: 200 },
+            frozenColumns: [[{ field: 'Name', title: '名称', width: 200 }]],
+            columns: [[              
                 { field: 'AlarmTypeName', title: '报警类型', width: 150 },
                 {
                     field: 'EnergyAlarmValue', title: '能耗报警值', width: 100, editor: 'text',
@@ -48,7 +48,19 @@ function loadDatagrid(loadType) {
                 {
                     field: 'CoalDustConsumptionAlarm', title: '煤耗报警值', width: 100, editor: 'text',
                     styler: function (value, row, index) { if (row.VariableId == "clinker") { return 'color:red;'; } }
-                }
+                },
+                {
+                    field: 'Target_Overall', title: '能耗目标值', width: 100, editor: 'text'
+                },
+                 {
+                     field: 'Target_Moment', title: '能耗瞬时目标值', width: 120, editor: 'text'
+                 },
+                  {
+                      field: 'Target_Class', title: '能耗班目标值', width: 100, editor: 'text'
+                  },
+                  {
+                      field: 'Target_Day', title: '能耗日目标值', width: 100, editor: 'text'
+                  }
             ]],
             toolbar: "#toolbar_ReportTemplate",
             rownumbers: true,
